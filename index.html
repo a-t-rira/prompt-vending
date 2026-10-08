@@ -31,32 +31,22 @@
     <section id="machine-view" class="machine-view" aria-label="プロンプトを選ぶ">
       <div class="stage" id="stage">
         <div class="greeter">
-          <div class="clerk-wrap" id="clerk-wrap"><img src="assets/clerk.png" alt="チップ商会の店員さん"></div>
+          <div class="clerk-wrap" id="clerk-wrap"><img src="assets/clerk.webp" alt="チップ商会の店員さん"></div>
           <p class="speech clerk-speech" id="clerk-speech">いらっしゃい！ 何にする？</p>
         </div>
 
         <div class="machine-wrap" id="machine-wrap">
           <div class="machine">
+            <img class="machine-art" src="assets/machine.webp" alt="" width="1024" height="1536">
             <div class="sign"><span>PROMPT</span></div>
-            <div class="window">
-              <div class="shelf" id="display-cans" aria-hidden="true"></div>
-            </div>
-            <div class="panel">
-              <div class="buttons" id="category-buttons" aria-label="やりたいこと"></div>
-              <div class="side" aria-hidden="true">
-                <div class="coin-box"><span class="price">100円</span><span class="coin-slot"></span></div>
-                <div class="win-lamp" id="win-lamp"><span>あたり</span></div>
-              </div>
-            </div>
-            <div class="outlet">
-              <span class="outlet-label">とりだしぐち</span>
-              <span class="drop-can" id="drop-can"></span>
-            </div>
+            <div class="shelf" id="display-cans"></div>
+            <div class="buttons" id="category-buttons" aria-label="やりたいこと"></div>
+            <div class="win-lamp" id="win-lamp" aria-hidden="true">あたり</div>
+            <div class="outlet" aria-hidden="true"><span class="drop-can" id="drop-can"></span></div>
+            <div class="coin" id="coin" aria-hidden="true">100</div>
           </div>
-          <div class="feet" aria-hidden="true"><i></i><i></i></div>
         </div>
 
-        <div class="coin" id="coin" aria-hidden="true">100</div>
         <div class="onomatopoeia" id="onomatopoeia" aria-hidden="true"></div>
         <div class="can-flight" id="can-flight" aria-hidden="true"><img src="assets/can.jpg" alt=""></div>
       </div>
@@ -97,7 +87,7 @@
     <section class="share-panel" role="dialog" aria-modal="true" aria-labelledby="share-title">
       <button class="close-share" id="close-share" type="button" aria-label="閉じる">×</button>
       <div class="share-clerk">
-        <img src="assets/clerk.png" alt="">
+        <img src="assets/clerk.webp" alt="">
         <div class="speech">みんなにも<br>教えてあげて！</div>
       </div>
       <h2 id="share-title">この1本をシェア</h2>

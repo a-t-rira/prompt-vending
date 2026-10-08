@@ -6,7 +6,10 @@ const SOCIAL = {
   x: "https://x.com/chip_shokai",
   note: "https://note.com/chip_shokai"
 };
-const CAN_COLORS = ["#ff5a7a", "#3db7f0", "#ffb000", "#7c5cff", "#2ec27e", "#ff7a1a", "#9b6b43", "#e8322b"];
+// イラストの缶の色と位置（左上から右へ、上段→下段）。位置は画像に対する%
+const CAN_COLORS = ["#e3262b", "#f57c1f", "#f6c51b", "#5aae2e", "#2fa3e0", "#2747b8", "#8a3fc0", "#ee6aa7"];
+const CAN_X = ["26.4%", "41.8%", "57.4%", "73.0%"];
+const CAN_Y = ["19.6%", "36.6%"];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (selector) => document.querySelector(selector);
 const machineView = $("#machine-view");
@@ -47,15 +50,10 @@ function renderCategories() {
     const slot = document.createElement("div");
     slot.className = "slot";
     slot.dataset.category = category.id;
-    slot.style.setProperty("--c", color);
-    slot.innerHTML = '<div class="mini-can"><em></em></div><div class="lamp"></div>';
-    slot.querySelector("em").textContent = category.icon;
+    slot.style.setProperty("--x", CAN_X[index % 4]);
+    slot.style.setProperty("--y", CAN_Y[Math.floor(index / 4) % 2]);
+    slot.setAttribute("aria-hidden", "true");
     displayCans.append(slot);
-    if (index === 3) {
-      const rail = document.createElement("div");
-      rail.className = "shelf-rail";
-      displayCans.append(rail);
-    }
     const button = document.createElement("button");
     button.type = "button";
     button.className = "category-button";
@@ -66,6 +64,7 @@ function renderCategories() {
     button.querySelector(".icon").textContent = category.icon;
     button.querySelector(".label").textContent = category.label;
     button.addEventListener("click", () => purchase(category, button));
+    slot.addEventListener("click", () => purchase(category, button));
     categoryButtons.append(button);
   });
 }
