@@ -20,9 +20,9 @@
 ├─ prompts.json        … プロンプトのデータ（このフォルダに同梱）
 ├─ CNAME               … 中身は「vending.chipshokai.com」の1行だけ
 └─ assets/
-   ├─ machine.png      … 自販機本体（Canvaで作成済み）
-   ├─ clerk.png        … 店員キャラ（Canvaで作成済み）
-   └─ can.png          … プロンプト缶（Canvaで作成済み）
+   ├─ machine.jpg      … 自販機本体（Canvaで作成済み）
+   ├─ clerk.jpg        … 店員キャラ（Canvaで作成済み）
+   └─ can.jpg          … プロンプト缶（Canvaで作成済み）
 ```
 
 - 画像3点はCanvaからダウンロードして `assets/` に置く。背景の黄色集中線はCSSで描くので、可能ならCanvaの「背景除去」で透過PNGにしておく
@@ -62,7 +62,7 @@
   - 画面がフラッシュ、背景の集中線が金色に変わる
   - 「大当たり！！」の巨大な漫画文字
   - 紙吹雪を画面全体に降らせる
-  - 缶は金色（`can.png` にCSSフィルターで金色っぽく）
+  - 缶は金色（`can.jpg` にCSSフィルターで金色っぽく）
   - 店員の吹き出しは「当たりだ！ もう1本……じゃなくて、すごいやつ出た！」
 
 ### 2-4. 結果カード
@@ -138,7 +138,7 @@ https://vending.chipshokai.com
 - 自販機とボタンはスマホ縦画面で1画面に収める
 - `prefers-reduced-motion` が有効な人には、揺れ・回転・紙吹雪を止めて、フェードだけの簡易演出にする
 - 効果音はv1では入れない
-- OGP画像・タイトル・説明文を設定する（OGP画像は後で用意。仮で `assets/can.png`）。og:url は https://vending.chipshokai.com
+- OGP画像・タイトル・説明文を設定する（OGP画像は後で用意。仮で `assets/can.jpg`）。og:url は https://vending.chipshokai.com
 
 ## 5. 今回やらないこと（v2以降の候補）
 - AIの一言機能（API）

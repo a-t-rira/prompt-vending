@@ -6,7 +6,7 @@
 - HTML / CSS / JavaScript だけで作る。ビルドツールやフレームワークは使わない。外部ライブラリは紙吹雪用の canvas-confetti（CDN）のみ可
 - GitHub Pages でそのまま公開できる構成にする（index.html がルート）。独自ドメイン vending.chipshokai.com を使うので、ルートに CNAME ファイル（中身は vending.chipshokai.com の1行）を置く
 - フッターと結果画面に、チップ商会の公式サイト（https://chipshokai.com）、X（https://x.com/chip_shokai）、note（https://note.com/chip_shokai）へのリンクを必ず入れる
-- 画像は assets/machine.png、assets/clerk.png、assets/can.png を使う。画像がまだない場合でも、仮の図形で動くようにしておく
+- 画像は assets/machine.jpg、assets/clerk.jpg、assets/can.jpg を使う。画像がまだない場合でも、仮の図形で動くようにしておく
 - prompts.json は fetch で読み込む。プロンプトの文章は書き換えない
 - アニメーションはこのアプリの一番の売りなので、SPEC.md の「2-2 購入演出」「2-3 当たり演出」を省略せず全部実装する
 - スマホ縦画面を最優先にする
