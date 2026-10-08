@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffd928">
+  <title>プロンプト自販機｜チップ商会</title>
+  <meta name="description" content="押すだけで、AIへの頼み方が出てくる。チップ商会のプロンプト自販機。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="プロンプト自販機｜チップ商会">
+  <meta property="og:description" content="押すだけで、AIへの頼み方が出てくる。">
+  <meta property="og:url" content="https://vending.chipshokai.com">
+  <meta property="og:image" content="https://vending.chipshokai.com/assets/can.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/can.jpg">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="rays" aria-hidden="true"></div>
+  <header class="masthead">
+    <p class="eyebrow">チップ商会 presents</p>
+    <h1>プロンプト<span>自販機</span></h1>
+    <p class="subtitle">押すだけで、AIへの頼み方が出てくる</p>
+  </header>
+
+  <main id="app" class="app-shell">
+    <section id="machine-view" class="machine-view" aria-label="プロンプトを選ぶ">
+      <div class="machine-scene">
+        <div class="speech clerk-speech" id="clerk-speech">いらっしゃい！<br>何にする？</div>
+        <div class="machine-wrap" id="machine-wrap">
+          <div class="machine-frame">
+            <img class="machine-art" src="assets/machine.jpg" alt="プロンプトが出てくる自動販売機">
+            <div class="machine-ui">
+              <div class="machine-screen">
+                <span class="screen-caption">TODAY'S PROMPT</span>
+                <div class="can-row" aria-hidden="true">
+                  <img src="assets/can.jpg" alt="">
+                  <img src="assets/can.jpg" alt="">
+                  <img src="assets/can.jpg" alt="">
+                </div>
+                <div class="win-lamp" id="win-lamp">★ あたり ★</div>
+              </div>
+              <div class="coin-slot" aria-label="コイン投入口"></div>
+              <div class="outlet"><span>とりだしぐち</span></div>
+            </div>
+            <div class="machine-buttons" id="category-buttons" aria-label="やりたいこと"></div>
+            <div class="machine-base"></div>
+          </div>
+        </div>
+        <div class="clerk-wrap" id="clerk-wrap">
+          <img src="assets/clerk.jpg" alt="自販機の店員さん">
+        </div>
+        <div class="coin" id="coin" aria-hidden="true">100</div>
+        <div class="onomatopoeia" id="onomatopoeia" aria-live="polite"></div>
+        <div class="can-flight" id="can-flight" aria-hidden="true"><img src="assets/can.jpg" alt=""></div>
+      </div>
+      <p class="choose-caption">ボタンを押して、今日の1本を買おう！</p>
+      <div id="loading" class="loading">プロンプトを準備中…</div>
+      <div id="error-message" class="error-message" hidden></div>
+    </section>
+
+    <section id="result-view" class="result-view" hidden aria-live="polite">
+      <article class="result-card" id="result-card">
+        <div class="result-topline">
+          <span id="result-category" class="category-tag"></span>
+          <span id="rare-badge" class="rare-badge" hidden>★ レア</span>
+        </div>
+        <h2 id="result-title"></h2>
+        <span class="ai-badge">ChatGPT・Claudeで使えます</span>
+        <div id="prompt-body" class="prompt-body" tabindex="0" aria-label="プロンプト本文"></div>
+        <p id="result-tip" class="result-tip"></p>
+        <div class="result-actions">
+          <button id="copy-prompt" class="button button-copy" type="button">📋 コピー</button>
+          <button id="buy-again" class="button button-again" type="button">🥫 もう1本買う</button>
+          <button id="open-share" class="button button-share" type="button">📣 シェア</button>
+          <a class="button button-diagnosis" href="https://shindan.chipshokai.com" target="_blank" rel="noopener noreferrer">🔍 AI診断もやってみる</a>
+        </div>
+        <div class="follow-box">
+          <strong>チップ商会をフォロー</strong>
+          <nav class="social-links" aria-label="チップ商会公式リンク">
+            <a href="https://chipshokai.com" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">🏠</span>公式サイト</a>
+            <a href="https://x.com/chip_shokai" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">𝕏</span>X</a>
+            <a href="https://note.com/chip_shokai" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">📖</span>note</a>
+          </nav>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div id="share-overlay" class="share-overlay" hidden>
+    <button class="overlay-backdrop" id="share-backdrop" aria-label="シェアを閉じる"></button>
+    <section class="share-panel" role="dialog" aria-modal="true" aria-labelledby="share-title">
+      <button class="close-share" id="close-share" type="button" aria-label="閉じる">×</button>
+      <div class="share-clerk">
+        <img src="assets/clerk.jpg" alt="">
+        <div class="speech">みんなにも<br>教えてあげて！</div>
+      </div>
+      <h2 id="share-title">この1本をシェア</h2>
+      <div class="share-options">
+        <a id="share-x" class="share-option brand-x" target="_blank" rel="noopener noreferrer"><span>𝕏</span><b>X</b></a>
+        <a id="share-line" class="share-option brand-line" target="_blank" rel="noopener noreferrer"><span>L</span><b>LINE</b></a>
+        <a id="share-facebook" class="share-option brand-facebook" target="_blank" rel="noopener noreferrer"><span>f</span><b>Facebook</b></a>
+        <a id="share-threads" class="share-option brand-threads" target="_blank" rel="noopener noreferrer"><span>@</span><b>Threads</b></a>
+        <button id="share-native" class="share-option brand-native" type="button" hidden><span>↗</span><b>その他</b></button>
+        <button id="copy-url" class="share-option brand-copy" type="button"><span>🔗</span><b>URLコピー</b></button>
+      </div>
+      <p class="share-note">投稿する前に、内容を確認できます。</p>
+    </section>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <footer class="site-footer">
+    <a class="byline" href="https://chipshokai.com" target="_blank" rel="noopener noreferrer">by チップ商会</a>
+    <nav class="footer-links" aria-label="チップ商会">
+      <a href="https://chipshokai.com" target="_blank" rel="noopener noreferrer" aria-label="公式サイト">🏠</a>
+      <a href="https://x.com/chip_shokai" target="_blank" rel="noopener noreferrer" aria-label="X">𝕏</a>
+      <a href="https://note.com/chip_shokai" target="_blank" rel="noopener noreferrer" aria-label="note">📖</a>
+    </nav>
+  </footer>
+</body>
+</html>
