@@ -164,7 +164,7 @@ function typePrompt() {
   const step = Math.max(2, Math.floor(fullText.length / 100));
   typingTimer = window.setInterval(() => {
     index = Math.min(index + step, fullText.length);
-    wrapper.textContent = fullText.slice(0, index);
+    wrapper.replaceChildren(renderHighlighted(fullText.slice(0, index)));
     if (index >= fullText.length) {
       window.clearInterval(typingTimer);
       body.replaceChildren(fragment);
