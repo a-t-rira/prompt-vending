@@ -15,7 +15,7 @@
   <link rel="icon" href="assets/can.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
   <script src="app.js" defer></script>
@@ -23,7 +23,7 @@
 <body>
   <div class="rays" aria-hidden="true"></div>
   <header class="masthead">
-    <h1>プロンプト<span>自販機</span></h1>
+    <h1 class="logo"><span class="logo-sm">プロンプト</span><span class="logo-lg">自販機</span></h1>
     <p class="subtitle">押すだけで、AIへの頼み方が出てくる</p>
   </header>
 
@@ -36,6 +36,7 @@
         </div>
 
         <div class="machine-wrap" id="machine-wrap">
+          <div class="burst" aria-hidden="true"><span>レアも<br>あるよ！</span></div>
           <div class="machine">
             <img class="machine-art" src="assets/machine.webp" alt="" width="1024" height="1536">
             <div class="sign"><span>PROMPT</span></div>
