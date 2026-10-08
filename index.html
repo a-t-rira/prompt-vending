@@ -13,6 +13,9 @@
   <meta property="og:image" content="https://vending.chipshokai.com/assets/can.jpg">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/can.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=M+PLUS+Rounded+1c:wght@500;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
   <script src="app.js" defer></script>
@@ -20,43 +23,43 @@
 <body>
   <div class="rays" aria-hidden="true"></div>
   <header class="masthead">
-    <p class="eyebrow">チップ商会 presents</p>
     <h1>プロンプト<span>自販機</span></h1>
     <p class="subtitle">押すだけで、AIへの頼み方が出てくる</p>
   </header>
 
   <main id="app" class="app-shell">
     <section id="machine-view" class="machine-view" aria-label="プロンプトを選ぶ">
-      <div class="machine-scene">
-        <div class="speech clerk-speech" id="clerk-speech">いらっしゃい！<br>何にする？</div>
+      <div class="stage" id="stage">
+        <div class="greeter">
+          <div class="clerk-wrap" id="clerk-wrap"><img src="assets/clerk.png" alt="チップ商会の店員さん"></div>
+          <p class="speech clerk-speech" id="clerk-speech">いらっしゃい！ 何にする？</p>
+        </div>
+
         <div class="machine-wrap" id="machine-wrap">
-          <div class="machine-frame">
-            <img class="machine-art" src="assets/machine.jpg" alt="プロンプトが出てくる自動販売機">
-            <div class="machine-ui">
-              <div class="machine-screen">
-                <span class="screen-caption">TODAY'S PROMPT</span>
-                <div class="can-row" aria-hidden="true">
-                  <img src="assets/can.jpg" alt="">
-                  <img src="assets/can.jpg" alt="">
-                  <img src="assets/can.jpg" alt="">
-                </div>
-                <div class="win-lamp" id="win-lamp">★ あたり ★</div>
-              </div>
-              <div class="coin-slot" aria-label="コイン投入口"></div>
-              <div class="outlet"><span>とりだしぐち</span></div>
+          <div class="machine">
+            <div class="sign"><span>PROMPT</span></div>
+            <div class="window">
+              <div class="shelf" id="display-cans" aria-hidden="true"></div>
             </div>
-            <div class="machine-buttons" id="category-buttons" aria-label="やりたいこと"></div>
-            <div class="machine-base"></div>
+            <div class="panel">
+              <div class="buttons" id="category-buttons" aria-label="やりたいこと"></div>
+              <div class="side" aria-hidden="true">
+                <div class="coin-box"><span class="price">100円</span><span class="coin-slot"></span></div>
+                <div class="win-lamp" id="win-lamp"><span>あたり</span></div>
+              </div>
+            </div>
+            <div class="outlet">
+              <span class="outlet-label">とりだしぐち</span>
+              <span class="drop-can" id="drop-can"></span>
+            </div>
           </div>
+          <div class="feet" aria-hidden="true"><i></i><i></i></div>
         </div>
-        <div class="clerk-wrap" id="clerk-wrap">
-          <img src="assets/clerk.jpg" alt="自販機の店員さん">
-        </div>
+
         <div class="coin" id="coin" aria-hidden="true">100</div>
-        <div class="onomatopoeia" id="onomatopoeia" aria-live="polite"></div>
+        <div class="onomatopoeia" id="onomatopoeia" aria-hidden="true"></div>
         <div class="can-flight" id="can-flight" aria-hidden="true"><img src="assets/can.jpg" alt=""></div>
       </div>
-      <p class="choose-caption">ボタンを押して、今日の1本を買おう！</p>
       <div id="loading" class="loading">プロンプトを準備中…</div>
       <div id="error-message" class="error-message" hidden></div>
     </section>
@@ -94,7 +97,7 @@
     <section class="share-panel" role="dialog" aria-modal="true" aria-labelledby="share-title">
       <button class="close-share" id="close-share" type="button" aria-label="閉じる">×</button>
       <div class="share-clerk">
-        <img src="assets/clerk.jpg" alt="">
+        <img src="assets/clerk.png" alt="">
         <div class="speech">みんなにも<br>教えてあげて！</div>
       </div>
       <h2 id="share-title">この1本をシェア</h2>

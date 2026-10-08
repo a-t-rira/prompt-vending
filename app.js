@@ -6,6 +6,7 @@ const SOCIAL = {
   x: "https://x.com/chip_shokai",
   note: "https://note.com/chip_shokai"
 };
+const CAN_COLORS = ["#ff5a7a", "#3db7f0", "#ffb000", "#7c5cff", "#2ec27e", "#ff7a1a", "#9b6b43", "#e8322b"];
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (selector) => document.querySelector(selector);
 const machineView = $("#machine-view");
@@ -14,6 +15,8 @@ const machineWrap = $("#machine-wrap");
 const clerkWrap = $("#clerk-wrap");
 const clerkSpeech = $("#clerk-speech");
 const categoryButtons = $("#category-buttons");
+const displayCans = $("#display-cans");
+const dropCan = $("#drop-can");
 const coin = $("#coin");
 const impactText = $("#onomatopoeia");
 const canFlight = $("#can-flight");
@@ -38,10 +41,25 @@ function randomItem(items) {
 }
 function renderCategories() {
   categoryButtons.replaceChildren();
-  data.categories.forEach(category => {
+  displayCans.replaceChildren();
+  data.categories.forEach((category, index) => {
+    const color = CAN_COLORS[index % CAN_COLORS.length];
+    const slot = document.createElement("div");
+    slot.className = "slot";
+    slot.dataset.category = category.id;
+    slot.style.setProperty("--c", color);
+    slot.innerHTML = '<div class="mini-can"><em></em></div><div class="lamp"></div>';
+    slot.querySelector("em").textContent = category.icon;
+    displayCans.append(slot);
+    if (index === 3) {
+      const rail = document.createElement("div");
+      rail.className = "shelf-rail";
+      displayCans.append(rail);
+    }
     const button = document.createElement("button");
     button.type = "button";
     button.className = "category-button";
+    button.style.setProperty("--c", color);
     button.dataset.category = category.id;
     button.setAttribute("aria-label", category.label + "のプロンプトを買う");
     button.innerHTML = '<span class="icon" aria-hidden="true"></span><span class="label"></span>';
@@ -67,7 +85,22 @@ function setBusy(value, selectedButton) {
 function setSpeech(text) {
   clerkSpeech.textContent = text;
 }
+function lightSlot(id) {
+  displayCans.querySelectorAll(".slot").forEach(slot => slot.classList.toggle("lit", slot.dataset.category === id));
+}
+async function chaseLamps(ms) {
+  const slots = [...displayCans.querySelectorAll(".slot")];
+  const end = performance.now() + (reducedMotion ? 0 : ms);
+  let i = 0;
+  while (performance.now() < end) {
+    slots.forEach((slot, n) => slot.classList.toggle("lit", n === i % slots.length));
+    i++;
+    await new Promise(r => setTimeout(r, 60));
+  }
+}
 function clearEffects() {
+  dropCan.classList.remove("drop");
+  displayCans.querySelectorAll(".slot").forEach(slot => slot.classList.remove("lit"));
   document.body.classList.remove("is-rare", "flash", "fast-rays");
   machineWrap.classList.remove("roulette", "winner", "shake");
   machineView.classList.remove("shake");
@@ -85,11 +118,13 @@ async function purchase(category, button) {
   currentPrompt = isRare ? randomItem(data.rare) : promptFor(category);
   if (!isRare) previousByCategory.set(category.id, currentPrompt.id);
 
+  lightSlot(category.id);
   coin.classList.add("insert");
   await wait(300);
   machineWrap.classList.add("shake");
-  await wait(800);
+  await chaseLamps(800);
   machineWrap.classList.remove("shake");
+  lightSlot(isRare ? null : category.id);
 
   if (isRare) {
     document.body.classList.add("is-rare", "flash");
@@ -98,16 +133,24 @@ async function purchase(category, button) {
     await wait(620);
     machineWrap.classList.remove("roulette");
     machineWrap.classList.add("winner");
+    impactText.textContent = "大当たり！！";
+    impactText.classList.remove("pop");
+    void impactText.offsetWidth;
+    impactText.classList.add("pop");
     if (!reducedMotion && typeof window.confetti === "function") {
       window.confetti({ particleCount: 130, spread: 105, origin: { y: 0.45 }, colors: ["#ffd928", "#fff", "#ef4238", "#50c878"] });
       window.confetti({ particleCount: 65, angle: 60, spread: 65, origin: { x: 0, y: 0.65 } });
       window.confetti({ particleCount: 65, angle: 120, spread: 65, origin: { x: 1, y: 0.65 } });
     }
-    await wait(260);
+    await wait(700);
   }
 
+  dropCan.classList.add("drop");
+  await wait(430);
   machineView.classList.add("shake");
   impactText.textContent = "ガコン！";
+  impactText.classList.remove("pop");
+  void impactText.offsetWidth;
   impactText.classList.add("pop");
   document.body.classList.add("fast-rays");
   clerkWrap.classList.add("jump");
@@ -238,6 +281,7 @@ function returnToMachine() {
   resultView.hidden = true;
   machineView.hidden = false;
   setSpeech("いらっしゃい！ 何にする？");
+  machineView.classList.remove("shake");
   canFlight.classList.remove("fly");
   categoryButtons.querySelectorAll("button").forEach(button => {
     button.disabled = false;
